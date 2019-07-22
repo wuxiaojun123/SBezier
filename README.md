@@ -1,2 +1,2 @@
 # SBezier
-![效果图如下](https://github.com/liuhuakun/BrushShots/blob/master/1.PNG)
+![效果图如下](https://github.com/wuxiaojun123/SBezier/blob/master/app/src/main/res/mipmap-xxhdpi/s.png)
