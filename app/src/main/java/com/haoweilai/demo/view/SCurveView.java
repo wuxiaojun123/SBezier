@@ -1,5 +1,7 @@
 package com.haoweilai.demo.view;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -49,6 +51,8 @@ public class SCurveView extends View {
     private Bitmap mBitmap2; // icon2
 
     private List<PointF> mPointFs = new ArrayList<>(); // 节点1到节点2上的所有点集合
+
+    private boolean mAnimFinish = true; // 动画执行完成
 
     public SCurveView(Context context) {
         this(context, null);
@@ -173,7 +177,13 @@ public class SCurveView extends View {
 
     }
 
+
+
     public void startAnim() {
+        if (!mAnimFinish) {
+            return;
+        }
+        mPointFs.clear();
         final float[] pos = new float[2];
         final ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, measure.getLength() * 0.25f);
         valueAnimator.setDuration(4000);
@@ -181,11 +191,18 @@ public class SCurveView extends View {
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
+                mAnimFinish = false;
                 float value = (float) animation.getAnimatedValue();
                 // 拿到当前S型曲线上的各个节点
                 measure.getPosTan(value, pos, null);
                 mPointFs.add(new PointF(pos[0], pos[1]));
                 postInvalidate();
+            }
+        });
+        valueAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                mAnimFinish = true;
             }
         });
         valueAnimator.start();
