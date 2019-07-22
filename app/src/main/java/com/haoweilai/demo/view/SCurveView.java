@@ -141,6 +141,10 @@ public class SCurveView extends View {
         initPointF();
     }
 
+    /***
+     * 初始化起始点和结束点以及两个控制点，这里的*2和*3只是为了让S型曲线更饱满点
+     * 也可以根据现在的比例来动态计算，这样可能扩展性更高点
+     */
     private void initPointF() {
         if (mStartPoint == null) {
             mStartPoint = new PointF();
